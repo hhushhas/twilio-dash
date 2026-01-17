@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #121113;
+  --bg-secondary: #1a191d;
+  --text-primary: #c1c1c1;
+  --accent: #e78a53;
+}
+
+body {
+  @apply bg-hub-950 text-hub-text font-mono antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-hub-950 border-l border-hub-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-hub-700 rounded-full border-2 border-hub-950;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-hub-accent;
+}
+
+/* Selection */
+::selection {
+  @apply bg-hub-accent text-hub-950;
+}
+
+/* Card Hover Effect */
+.hub-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hub-card:hover {
+  transform: translateY(-4px);
+  @apply border-hub-accent shadow-lg;
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.3);
+}
+
+/* Toast animation */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.2s ease-out;
+}

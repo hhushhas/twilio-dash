@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Preview: Slide-Hub Aesthetic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        hub: {
+                            950: '#121113', // bg-primary
+                            900: '#1a191d', // bg-secondary
+                            800: '#222222', // bg-tertiary / border-subtle
+                            700: '#333333', // border
+                            text: '#c1c1c1', // text-primary
+                            muted: '#8a8a9a', // text-secondary
+                            dim: '#555560',   // text-muted
+                            accent: '#e78a53', // Warm Orange
+                            'accent-glow': 'rgba(231, 138, 83, 0.15)',
+                        },
+                        success: '#5f8787', // Muted Teal
+                        danger: '#cf5555',
+                    },
+                    fontFamily: {
+                        sans: ['"JetBrains Mono"', 'monospace'], // Forcing Mono as per Slide-Hub
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px -5px rgba(231, 138, 83, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #121113;
+            color: #c1c1c1;
+        }
+        
+        /* Custom Scrollbar from Slide-Hub */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121113;
+            border-left: 1px solid #222;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 5px;
+            border: 2px solid #121113;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e78a53;
+        }
+
+        /* Nav Link Active State */
+        .nav-link.active {
+            color: #e78a53;
+            background-color: rgba(231, 138, 83, 0.1);
+        }
+
+        /* Card Hover Effect from Slide-Hub */
+        .hub-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hub-card:hover {
+            transform: translateY(-4px);
+            border-color: #e78a53;
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header / Navigation -->
+    <header class="border-b border-hub-700 bg-hub-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-hub-accent shadow-glow"></div>
+                <h1 class="text-lg font-bold text-hub-text tracking-tight">TWILIO DASH</h1>
+            </div>
+            
+            <nav class="flex items-center gap-1 bg-hub-950/50 p-1 rounded-lg border border-hub-800">
+                <button onclick="showPage('dashboard')" class="nav-link active px-4 py-1.5 rounded-md text-sm font-medium text-hub-muted hover:text-hub-text transition-colors" id="nav-dashboard">Dashboard</button>
+                <button onclick="showPage('numbers')" class="nav-link px-4 py-1.5 rounded-md text-sm font-medium text-hub-muted hover:text-hub-text transition-colors" id="nav-numbers">Numbers</button>
+                <button onclick="showPage('calls')" class="nav-link px-4 py-1.5 rounded-md text-sm font-medium text-hub-muted hover:text-hub-text transition-colors" id="nav-calls">Calls</button>
+                <button onclick="showPage('messages')" class="nav-link px-4 py-1.5 rounded-md text-sm font-medium text-hub-muted hover:text-hub-text transition-colors" id="nav-messages">Messages</button>
+                <button onclick="showPage('alerts')" class="nav-link px-4 py-1.5 rounded-md text-sm font-medium text-hub-muted hover:text-hub-text transition-colors" id="nav-alerts">Alerts</button>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 px-3 py-1.5 bg-hub-800 rounded-md border border-hub-700 text-sm hover:border-hub-accent cursor-pointer transition-colors">
+                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                    <span>Production</span>
+                    <svg class="w-4 h-4 text-hub-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-8">
+        
+        <!-- PAGE: DASHBOARD -->
+        <div id="page-dashboard" class="space-y-8 animate-fade-in">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-hub-text mb-1">Overview</h2>
+                    <p class="text-hub-muted text-sm">Welcome back. System status is healthy.</p>
+                </div>
+                <div class="text-hub-dim text-xs border border-hub-700 rounded px-2 py-1">Press ? for shortcuts</div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Stat Card 1 -->
+                <div class="hub-card bg-hub-900 border border-hub-700 rounded-2xl p-6 cursor-pointer" onclick="showPage('numbers')">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-hub-muted text-sm font-medium">Active Numbers</span>
+                        <span class="text-hub-dim"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg></span>
+                    </div>
+                    <div class="text-3xl font-bold text-hub-text">128</div>
+                    <div class="mt-2 text-xs text-success flex items-center gap-1">
+                        <span>+4 this month</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Stat Card 2 -->
+                <div class="hub-card bg-hub-900 border border-hub-700 rounded-2xl p-6 cursor-pointer" onclick="showPage('calls')">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-hub-muted text-sm font-medium">Total Calls</span>
+                        <span class="text-hub-dim"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 3l-6 6m0 0V4m0 5h5M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z"></path></svg></span>
+                    </div>
+                    <div class="text-3xl font-bold text-hub-text">8,432</div>
+                    <div class="mt-2 text-xs text-hub-dim">Last 30 days</div>
+                </div>
+
+                <!-- Stat Card 3 -->
+                <div class="hub-card bg-hub-900 border border-hub-700 rounded-2xl p-6 cursor-pointer" onclick="showPage('messages')">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-hub-muted text-sm font-medium">Messages</span>
+                        <span class="text-hub-dim"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg></span>
+                    </div>
+                    <div class="text-3xl font-bold text-hub-text">45.2k</div>
+                    <div class="mt-2 text-xs text-success">+12% vs last period</div>
+                </div>
+
+                <!-- Stat Card 4 -->
+                <div class="hub-card bg-hub-900 border border-danger/30 rounded-2xl p-6 cursor-pointer" onclick="showPage('alerts')">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-danger text-sm font-medium">Errors</span>
+                        <span class="text-danger"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg></span>
+                    </div>
+                    <div class="text-3xl font-bold text-danger">3</div>
+                    <div class="mt-2 text-xs text-danger/70">Requires attention</div>
+                </div>
+            </div>
+
+            <!-- Costs & Activity Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Cost Component (Refined UX) -->
+                <div class="lg:col-span-2 bg-hub-900 border border-hub-700 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-bold text-hub-text">Estimated Costs</h3>
+                        
+                        <!-- Inline Switcher UX -->
+                        <div class="bg-hub-950 p-1 rounded-lg border border-hub-800 flex items-center">
+                            <button class="px-3 py-1 rounded-md text-xs font-medium text-hub-muted hover:text-hub-text transition-colors">7d</button>
+                            <button class="px-3 py-1 rounded-md text-xs font-medium bg-hub-800 text-hub-text shadow-sm transition-colors border border-hub-700">30d</button>
+                            <button class="px-3 py-1 rounded-md text-xs font-medium text-hub-muted hover:text-hub-text transition-colors">90d</button>
+                            <button class="px-3 py-1 rounded-md text-xs font-medium text-hub-muted hover:text-hub-text transition-colors">All</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="p-4 rounded-xl bg-hub-950 border border-hub-800">
+                            <div class="text-sm text-hub-muted mb-1">Voice</div>
+                            <div class="text-xl font-bold text-hub-text">$450.20</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-hub-950 border border-hub-800">
+                            <div class="text-sm text-hub-muted mb-1">SMS</div>
+                            <div class="text-xl font-bold text-hub-text">$120.50</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-hub-950 border border-hub-accent/30 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-hub-accent/5"></div>
+                            <div class="relative">
+                                <div class="text-sm text-hub-accent mb-1">Total</div>
+                                <div class="text-xl font-bold text-hub-accent">$570.70</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fake Chart Visual -->
+                    <div class="mt-8 h-48 flex items-end gap-2 px-2">
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[40%] hover:bg-hub-accent transition-colors"></div>
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[60%] hover:bg-hub-accent transition-colors"></div>
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[30%] hover:bg-hub-accent transition-colors"></div>
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[70%] hover:bg-hub-accent transition-colors"></div>
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[50%] hover:bg-hub-accent transition-colors"></div>
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[80%] hover:bg-hub-accent transition-colors"></div>
+                        <div class="w-full bg-hub-800 rounded-t-sm h-[65%] hover:bg-hub-accent transition-colors"></div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Feed -->
+                <div class="bg-hub-900 border border-hub-700 rounded-2xl overflow-hidden flex flex-col">
+                    <div class="p-4 border-b border-hub-700 flex justify-between items-center bg-hub-900 sticky top-0">
+                        <h3 class="font-bold text-hub-text text-sm">Live Activity</h3>
+                        <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="flex-1 overflow-y-auto max-h-[400px] p-2 space-y-1">
+                        <!-- Item -->
+                        <div class="p-3 rounded-lg hover:bg-hub-800 transition-colors flex gap-3 group cursor-default">
+                            <div class="mt-1 w-6 h-6 rounded bg-hub-950 flex items-center justify-center text-hub-muted group-hover:text-hub-text border border-hub-800">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between">
+                                    <span class="text-xs font-bold text-hub-text truncate">...4932 &rarr; ...8821</span>
+                                    <span class="text-[10px] text-hub-dim">Just now</span>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-[10px] bg-success/10 text-success px-1.5 py-0.5 rounded">Completed</span>
+                                    <span class="text-[10px] text-hub-dim">Voice</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item -->
+                        <div class="p-3 rounded-lg hover:bg-hub-800 transition-colors flex gap-3 group cursor-default">
+                            <div class="mt-1 w-6 h-6 rounded bg-hub-950 flex items-center justify-center text-hub-muted group-hover:text-hub-text border border-hub-800">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex justify-between">
+                                    <span class="text-xs font-bold text-hub-text truncate">...1122 &larr; ...3344</span>
+                                    <span class="text-[10px] text-hub-dim">2m ago</span>
+                                </div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-[10px] bg-hub-800 text-hub-muted px-1.5 py-0.5 rounded">Sent</span>
+                                    <span class="text-[10px] text-hub-dim">SMS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: NUMBERS -->
+        <div id="page-numbers" class="space-y-6 hidden animate-fade-in">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-hub-text">Phone Numbers</h2>
+                    <p class="text-hub-muted text-sm mt-1">Manage your active Twilio numbers.</p>
+                </div>
+                <button class="bg-hub-accent text-hub-950 px-4 py-2 rounded-md text-sm font-bold hover:bg-white transition-colors">
+                    + Buy Number
+                </button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="flex gap-4 p-4 bg-hub-900 border border-hub-700 rounded-xl items-center">
+                <div class="relative flex-1">
+                    <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-hub-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" placeholder="Search numbers..." class="w-full bg-hub-950 border border-hub-800 rounded-lg pl-10 pr-4 py-2 text-sm text-hub-text focus:outline-none focus:border-hub-accent transition-colors">
+                </div>
+                <select class="bg-hub-950 border border-hub-800 rounded-lg px-4 py-2 text-sm text-hub-text focus:outline-none focus:border-hub-accent">
+                    <option>All Capabilities</option>
+                    <option>Voice</option>
+                    <option>SMS</option>
+                    <option>Fax</option>
+                </select>
+            </div>
+
+            <!-- Numbers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Number Card -->
+                <div class="hub-card bg-hub-900 border border-hub-700 rounded-xl p-5 relative overflow-hidden group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="font-mono text-lg font-bold text-hub-text">+1 (555) 123-4567</div>
+                        <div class="bg-success/10 text-success text-[10px] px-2 py-1 rounded border border-success/20">Active</div>
+                    </div>
+                    
+                    <div class="flex gap-2 mb-6">
+                        <span class="text-xs bg-hub-950 border border-hub-800 px-2 py-1 rounded text-hub-muted flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            Voice
+                        </span>
+                        <span class="text-xs bg-hub-950 border border-hub-800 px-2 py-1 rounded text-hub-muted flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                            SMS
+                        </span>
+                    </div>
+
+                    <div class="border-t border-hub-800 pt-4 flex items-center justify-between">
+                        <span class="text-xs text-hub-dim">US / Local</span>
+                        <span class="text-xs text-hub-text">$1.15/mo</span>
+                    </div>
+
+                    <!-- Hover Actions -->
+                    <div class="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-[-5px] group-hover:translate-y-0">
+                         <button class="p-1.5 bg-hub-800 rounded hover:bg-hub-accent hover:text-white transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                    </div>
+                </div>
+
+                <!-- Number Card (Warning) -->
+                <div class="hub-card bg-hub-900 border border-hub-700 rounded-xl p-5 relative overflow-hidden group">
+                     <div class="flex justify-between items-start mb-4">
+                        <div class="font-mono text-lg font-bold text-hub-text">+1 (202) 555-0199</div>
+                        <div class="bg-hub-800 text-hub-muted text-[10px] px-2 py-1 rounded border border-hub-700">Inactive</div>
+                    </div>
+                    <div class="flex gap-2 mb-6">
+                        <span class="text-xs bg-hub-950 border border-hub-800 px-2 py-1 rounded text-hub-muted">Voice</span>
+                    </div>
+                    <div class="border-t border-hub-800 pt-4 flex items-center justify-between">
+                         <div class="text-xs text-hub-accent flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Stale (90d+)
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: CALLS -->
+        <div id="page-calls" class="space-y-6 hidden animate-fade-in">
+             <h2 class="text-2xl font-bold text-hub-text">Call Logs</h2>
+             <div class="bg-hub-900 border border-hub-700 rounded-xl overflow-hidden">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-hub-950 text-hub-muted border-b border-hub-800">
+                        <tr>
+                            <th class="px-6 py-3 font-medium">Status</th>
+                            <th class="px-6 py-3 font-medium">From</th>
+                            <th class="px-6 py-3 font-medium">To</th>
+                            <th class="px-6 py-3 font-medium">Duration</th>
+                            <th class="px-6 py-3 font-medium">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-hub-800">
+                        <tr class="hover:bg-hub-800/50 transition-colors">
+                            <td class="px-6 py-4"><span class="bg-success/10 text-success px-2 py-1 rounded text-xs border border-success/20">Completed</span></td>
+                            <td class="px-6 py-4 font-mono text-hub-text">+15551234567</td>
+                            <td class="px-6 py-4 font-mono text-hub-muted">+15559876543</td>
+                            <td class="px-6 py-4 text-hub-dim">45s</td>
+                            <td class="px-6 py-4 text-hub-dim">Oct 24, 14:32</td>
+                        </tr>
+                        <tr class="hover:bg-hub-800/50 transition-colors">
+                            <td class="px-6 py-4"><span class="bg-danger/10 text-danger px-2 py-1 rounded text-xs border border-danger/20">Failed</span></td>
+                            <td class="px-6 py-4 font-mono text-hub-text">+15550001111</td>
+                            <td class="px-6 py-4 font-mono text-hub-muted">+15552223333</td>
+                            <td class="px-6 py-4 text-hub-dim">0s</td>
+                            <td class="px-6 py-4 text-hub-dim">Oct 24, 12:15</td>
+                        </tr>
+                         <tr class="hover:bg-hub-800/50 transition-colors">
+                            <td class="px-6 py-4"><span class="bg-blue-500/10 text-blue-400 px-2 py-1 rounded text-xs border border-blue-500/20">In-Progress</span></td>
+                            <td class="px-6 py-4 font-mono text-hub-text">+15559998888</td>
+                            <td class="px-6 py-4 font-mono text-hub-muted">+15557776666</td>
+                            <td class="px-6 py-4 text-hub-dim">--</td>
+                            <td class="px-6 py-4 text-hub-dim">Just now</td>
+                        </tr>
+                    </tbody>
+                </table>
+             </div>
+        </div>
+
+        <!-- PAGE: MESSAGES -->
+        <div id="page-messages" class="hidden animate-fade-in">
+            <div class="text-center py-20 bg-hub-900 border border-hub-700 rounded-xl border-dashed">
+                <div class="w-16 h-16 bg-hub-800 rounded-full flex items-center justify-center mx-auto mb-4 text-hub-muted">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-hub-text">Message Log Preview</h3>
+                <p class="text-hub-dim mt-2 max-w-md mx-auto">Similar table layout to Calls, but with message body previews and delivery status.</p>
+            </div>
+        </div>
+
+        <!-- PAGE: ALERTS -->
+        <div id="page-alerts" class="hidden animate-fade-in">
+             <div class="text-center py-20 bg-hub-900 border border-hub-700 rounded-xl border-dashed">
+                <div class="w-16 h-16 bg-hub-800 rounded-full flex items-center justify-center mx-auto mb-4 text-hub-muted">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-hub-text">Alerts Preview</h3>
+                <p class="text-hub-dim mt-2 max-w-md mx-auto">List of system alerts, errors, and debugger events.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('[id^="page-"]').forEach(el => el.classList.add('hidden'));
+            
+            // Show selected page
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.remove('hidden');
+
+            // Update Nav State
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            document.getElementById('nav-' + pageId).classList.add('active');
+        }
+    </script>
+</body>
+</html>
