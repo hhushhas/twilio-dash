@@ -1,51 +1,32 @@
 # Twilio Dashboard
 
-A modern, full-stack dashboard for managing multiple Twilio accounts with real-time monitoring, cost tracking, and activity feeds.
+Multi-account Twilio dashboard with real-time monitoring, cost tracking, and activity feeds.
 
 ## Features
 
-- **Multi-Account Management** - Seamlessly switch between multiple Twilio accounts
-- **Real-Time Activity** - Live feed of calls and messages across all accounts
-- **Phone Number Tracking** - Monitor active numbers and detect stale/unused numbers
-- **Call & Message Logs** - Browse and filter communication history
-- **Cost Analytics** - Track spending across configurable time periods (7d, 30d, 90d, all)
-- **Alerts Monitoring** - View system alerts and notifications
-- **Webhooks Management** - Configure and manage webhook endpoints
-- **Keyboard Shortcuts** - Press `?` to view all shortcuts
-- **Dark Theme** - Clean, modern UI built with Tailwind CSS
+- Multi-account switching with color-coded badges
+- Live call/message activity feed
+- Phone number tracking + staleness detection
+- Cost analytics (7d/30d/90d/all periods)
+- Webhooks & alerts management
+- Keyboard shortcuts (press `?`)
 
-## Tech Stack
+## Stack
 
-**Frontend:**
-- React 18
-- Vite
-- React Router
-- TypeScript
-- Tailwind CSS
-
-**Backend:**
-- Hono (lightweight web framework)
-- Bun runtime
-- Twilio SDK
+| Layer    | Tech                              |
+| -------- | --------------------------------- |
+| Frontend | React 18, Vite, TypeScript, Tailwind |
+| Backend  | Hono, Bun, Twilio SDK             |
 
 ## Setup
 
-### Prerequisites
-
-- [Bun](https://bun.sh) installed
-- Twilio account(s) with SID and Auth Token
-
-### Installation
+**Prerequisites:** [Bun](https://bun.sh) + Twilio account SID/token
 
 ```bash
-# Install dependencies
 bun install
 ```
 
-### Configuration
-
-Create an `accounts.json` file in the root directory:
-
+**Create `accounts.json`:**
 ```json
 {
   "defaultStaleAfterDays": 30,
@@ -56,80 +37,63 @@ Create an `accounts.json` file in the root directory:
       "sid": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       "token": "your_auth_token_here",
       "staleAfterDays": 45
-    },
-    {
-      "id": "dev",
-      "name": "Development",
-      "sid": "ACyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-      "token": "your_auth_token_here"
     }
   ]
 }
 ```
 
-**Configuration Options:**
-- `defaultStaleAfterDays` - Global threshold for marking numbers as stale (default: 30)
-- `staleAfterDays` - Per-account override for staleness detection (optional)
+| Field                | Description                          |
+| -------------------- | ------------------------------------ |
+| `defaultStaleAfterDays` | Global threshold for stale numbers (default: 30) |
+| `staleAfterDays`     | Per-account override (optional)      |
 
-### Running
-
+**Run:**
 ```bash
-# Development (runs both server and frontend)
-bun start
-
-# Or run separately:
-bun run server  # Backend on http://localhost:3001
-bun run dev     # Frontend on http://localhost:5173
-```
-
-### Build
-
-```bash
-bun run build
+bun start          # Both server + frontend
+bun run server     # Backend only (:3001)
+bun run dev        # Frontend only (:5173)
+bun run build      # Production build
 ```
 
 ## Security
 
-Sensitive credentials are protected:
-- `.env` files (if used)
-- `accounts.json` (contains Twilio credentials)
-- API tokens never exposed to frontend
+`.gitignore` protects:
+- `accounts.json` (Twilio credentials)
+- `.env` files
+- `*.log` files
 
-**Never commit these files to version control.**
+Never commit credentials.
 
-## Project Structure
+## Structure
 
 ```
-twilio-dash/
-├── src/                    # Frontend React app
-│   ├── components/         # Reusable UI components
-│   ├── context/           # React contexts (Account, Toast)
-│   ├── hooks/             # Custom hooks
-│   ├── pages/             # Route pages
-│   └── main.tsx           # Entry point
-├── server/                # Backend Hono server
-│   ├── routes/            # API endpoints
-│   └── index.ts           # Server entry point
-├── accounts.json          # Twilio credentials (gitignored)
-└── package.json
+src/
+├── components/     # UI components
+├── context/        # Account, Toast contexts
+├── hooks/          # useKeyboardShortcuts
+└── pages/          # Dashboard, Calls, Messages, etc.
+
+server/
+├── routes/         # API endpoints
+└── index.ts        # Hono app + Twilio client cache
 ```
 
-## API Endpoints
+## API
 
-- `GET /api/accounts` - List configured accounts (safe, no tokens)
-- `GET /api/stats` - Dashboard statistics
-- `GET /api/numbers` - Phone numbers with filtering
-- `GET /api/calls` - Call logs
-- `GET /api/messages` - Message logs
-- `GET /api/alerts` - System alerts
-- `GET /api/costs?period={7d|30d|90d|all}` - Cost breakdown
-- `GET /api/staleness` - Stale number detection
-- `GET /api/webhooks` - Webhook configurations
-- `GET /api/health` - Health check
+| Endpoint                         | Description             |
+| -------------------------------- | ----------------------- |
+| `GET /api/accounts`              | List accounts (no tokens) |
+| `GET /api/stats`                 | Dashboard stats         |
+| `GET /api/numbers`               | Phone numbers + filters |
+| `GET /api/calls`                 | Call logs               |
+| `GET /api/messages`              | Message logs            |
+| `GET /api/alerts`                | System alerts           |
+| `GET /api/costs?period=30d`      | Cost breakdown          |
+| `GET /api/staleness`             | Stale number detection  |
+| `GET /api/webhooks`              | Webhook configs         |
+| `GET /api/health`                | Health check            |
 
-## Keyboard Shortcuts
-
-Press `?` in the app to view all available shortcuts.
+Press `?` for keyboard shortcuts.
 
 ## License
 
