@@ -172,14 +172,17 @@ server/
 
 <div align="center">
 
-### Dashboard Overview
-*Coming soon - Real-time activity feed, cost analytics, and multi-account switching*
+### 🎯 Phone Numbers Management
 
-### Phone Numbers Management
-*Coming soon - Number tracking, staleness detection, and filtering*
+![Phone Numbers](.github/images/numbers.png)
 
-### Call & Message Logs
-*Coming soon - Detailed logs with status tracking and search*
+**Number tracking** | **Staleness detection** | **Search & filter** | **Account badges**
+
+---
+
+### 📊 Dashboard Overview
+
+*To add the dashboard screenshot: Navigate to the Dashboard page and save a screenshot as `.github/images/dashboard.png`*
 
 </div>
 
