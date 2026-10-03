@@ -1,6 +1,7 @@
 {
   "name": "twilio-dash",
   "version": "0.1.0",
+  "packageManager": "pnpm@12.8.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
